@@ -13,3 +13,10 @@ export const toBase64 = (file) => {
     reader.readAsDataURL(file);
   });
 };
+
+export const currencyFormat = (number) =>
+  new Intl.NumberFormat("kz-KZ", {
+    style: "currency",
+    currency: "KZT",
+    maximumFractionDigits: 0,
+  }).format(number);
