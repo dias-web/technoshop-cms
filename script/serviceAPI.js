@@ -11,14 +11,33 @@ export const getGoods = async (id) => {
   throw new Error(response.status);
 };
 
-export const postGoods = (data) =>
-  fetch(`${API_URI}api/goods`, {
+export const postGoods = async (data) => {
+  const response = await fetch(`${API_URI}api/goods`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
     },
     body: JSON.stringify(data),
-  }).then((response) => response.json());
+  });
+  if (response.ok) {
+    return response.json();
+  }
+  throw new Error(response.status);
+};
+
+export const editGoods = async (data) => {
+  const response = await fetch(`${API_URI}api/goods/${data.identificator}`, {
+    method: "PATCH",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  if (response.ok) {
+    return response.json();
+  }
+  throw new Error(response.status);
+};
 
 export const getCategory = async () => {
   const response = await fetch(`${API_URI}api/category`);
@@ -26,5 +45,18 @@ export const getCategory = async () => {
     return response.json();
   }
 
+  throw new Error(response.status);
+};
+
+export const deleteProduct = async (id) => {
+  const response = await fetch(`${API_URI}api/goods/${id}`, {
+    method: "DELETE",
+    headers: {
+      "content-type": "application/json",
+    },
+  });
+  if (response.ok) {
+    return response.json();
+  }
   throw new Error(response.status);
 };

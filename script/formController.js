@@ -1,6 +1,6 @@
 import { category, form, modal } from "./elems.js";
-import { getCategory, getGoods, postGoods } from "./serviceAPI.js";
-import { renderRow } from "./tableView.js";
+import { getCategory, getGoods, postGoods, editGoods } from "./serviceAPI.js";
+import { renderRow, editRow } from "./tableView.js";
 import { closeModal } from "./modalController.js";
 import { toBase64 } from "./utils.js";
 import { showPreview } from "./previewController.js";
@@ -36,10 +36,18 @@ export const formController = () => {
       delete data.image;
     }
 
+    if (data.imagesave) {
+      const goods = await editGoods(data);
+      editRow(goods);
+    } else {
+      const goods = await postGoods(data);
+      renderRow(goods);
+    }
+
     const goods = await postGoods(data);
     renderRow(goods);
-    updateCategory();
     closeModal(modal, "d-block");
+    updateCategory();
   });
 };
 
@@ -52,5 +60,6 @@ export const fillingForm = async (id) => {
   form.display.value = display ? display : "";
   form.price.value = price;
   form.imagesave.value = image;
+  form.identificator.value = id;
   showPreview(`${API_URI}${image}`);
 };
