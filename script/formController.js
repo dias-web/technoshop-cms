@@ -44,8 +44,6 @@ export const formController = () => {
       renderRow(goods);
     }
 
-    const goods = await postGoods(data);
-    renderRow(goods);
     closeModal(modal, "d-block");
     updateCategory();
   });
